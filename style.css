@@ -1,0 +1,27 @@
+/*
+ Theme Name:   Farm Urban Spacious
+ Theme URI:    http://www.farmurban.co.uk
+ Description:  Farm Urban Theme based on Spacious
+ Author:       Jens Thomas
+ Author URI:   http://www.farmurban.co.uk
+ Template:     spacious
+ Version:      1.0.0
+ License:      GNU General Public License v2 or later
+ License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+ Tags:         one-column, two-columns, right-sidebar, left-sidebar, flexible-header, custom-header, custom-background, custom-menu, custom-colors, sticky-post, threaded-comments, translation-ready, featured-images, theme-options, footer-widgets, blog, e-commerce, rtl-language-support
+ Text Domain: farmurban_spacious
+*/
+
+/* @import '/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.14-6684'; */
+
+/* http://themegrill.com/support-forum/topic/removing-read-more-button-on-slider/ */
+#featured-slider .slider-read-more-button {
+    display: none;
+}
+
+.nolink a {
+   pointer-events: none;
+   cursor: default;
+   color: #D3D3D3;
+}
+
