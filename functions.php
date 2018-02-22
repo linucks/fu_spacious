@@ -3,7 +3,7 @@
  * farmurban functions
 */
 
-$FF_STAFF_PAGES = array( '/the-staff-room/' );
+$FF_STAFF_PAGES = array( '/the-staff-room/', '/zoom-room/', '/team-leader-instructions/', '/resources/' );
 $FF_STUDENT_PAGES = array( '/forums/forum/future-food-challenge-2018/', '/shop/', '/12-week-content/' );
 $FF_PAGES = array_merge($FF_STAFF_PAGES, $FF_STUDENT_PAGES);
 $FF_STAFF_MENUS = array( 'The Staff Room', 'Teachers Forum' );
