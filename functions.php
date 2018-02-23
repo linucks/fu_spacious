@@ -37,6 +37,35 @@ function fu_login_redirect($redirect_to_calculated, $redirect_url_specified, $us
 }
 add_filter('login_redirect','fu_login_redirect', 10, 3);
 
+function my_login_logo() { ?>
+    <style type="text/css">
+        #login h1 a, .login h1 a {
+            background-image: url(<?php echo home_url( '/wp-content/uploads/2016/06/FarmUrbanLogoNew100x106.png' ); ?>);
+		height:106px;
+		width:100px;
+		background-size: 100px 106px;
+		background-repeat: no-repeat;
+        	padding-bottom: 30px;
+        }
+        #wp-submit {
+            color:  #F4BA55;
+            background-color: #0D96A5;
+        }
+    </style>
+<?php }
+add_action( 'login_enqueue_scripts', 'my_login_logo' );
+
+function my_login_logo_url() {
+    return home_url();
+}
+add_filter( 'login_headerurl', 'my_login_logo_url' );
+
+function my_login_logo_url_title() {
+    return 'Farm Urban';
+}
+add_filter( 'login_headertitle', 'my_login_logo_url_title' );
+
+
 /* Buddypress stuff below */
 
 function page_in_array($page_array){
