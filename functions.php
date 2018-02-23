@@ -18,8 +18,26 @@ function my_theme_enqueue_styles() {
         array( $parent_style ),
         wp_get_theme()->get('Version')
     );
+    wp_enqueue_style( 'google-fonts-dosis', 'https://fonts.googleapis.com/css?family=Dosis' ); 
 }
 add_action( 'wp_enqueue_scripts', 'my_theme_enqueue_styles' );
+
+function fu_login_redirect($redirect_to_calculated, $redirect_url_specified, $user) {
+    $redirect_to = $redirect_to_calculated;
+    if ( ! is_wp_error( $user ) ) {
+        if ( in_array('administrator',  $user->roles) ) {
+            $redirect_to = $redirect_to_calculated;
+        } elseif ( user_is_teacher($user->ID) ) {
+            $redirect_to = home_url( '/the-staff-room/' );
+        } else {
+            $redirect_to = home_url( '/future-food-challenge-2018/' );
+        }
+    }
+    return $redirect_to;
+}
+add_filter('login_redirect','fu_login_redirect', 10, 3);
+
+/* Buddypress stuff below */
 
 function page_in_array($page_array){
     //$path = parse_url(wp_get_referer(), PHP_URL_PATH);
@@ -41,10 +59,12 @@ function page_only_for_teachers() {
     return ( ! user_is_teacher() && page_in_array( $FF_STAFF_PAGES ) );
 }
 
-function user_is_teacher() {
+function user_is_teacher( $user_id = null ) {
+    if ($user_id === null) {
+        $user_id = bp_loggedin_user_id();
+    }
     $group_id = groups_get_id( 'teachers' );
-    $group = groups_get_group( array( 'group_id' => $group_id ) );
-    return bp_group_is_member( $group );
+    return groups_is_user_member( $user_id, $group_id );
 }
 
 function my_page_template_redirect()
