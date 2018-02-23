@@ -48,7 +48,7 @@ function my_login_logo() { ?>
         	padding-bottom: 30px;
         }
         #wp-submit {
-            color:  #F4BA55;
+            color:  #F4E8DB;
             background-color: #0D96A5;
         }
     </style>
