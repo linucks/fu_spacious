@@ -19,9 +19,32 @@
     display: none;
 }
 
+/* Grey-out links if they are not currently available */
 .nolink a {
    pointer-events: none;
    cursor: default;
    color: #D3D3D3;
 }
 
+/* Change the look of the site by using Dosis */
+body,
+button,
+input,
+select,
+textarea {
+    font-family: 'Dosis', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, p, .small-menu li {
+    font-family: 'Dosis', sans-serif;
+}
+
+.main-navigation li {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.entry-content ul {
+    list-style: disc;
+}
