@@ -22,6 +22,7 @@ function my_theme_enqueue_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'my_theme_enqueue_styles' );
 
+/* Style the Login Page */
 function fu_login_redirect($redirect_to_calculated, $redirect_url_specified, $user) {
     $redirect_to = $redirect_to_calculated;
     if ( ! is_wp_error( $user ) ) {
@@ -65,9 +66,19 @@ function my_login_logo_url_title() {
 }
 add_filter( 'login_headertitle', 'my_login_logo_url_title' );
 
+/* shortcodes for adding dynamically generated urls */
+function get_bp_messages() {
+    return "<a href=" . bp_loggedin_user_domain() . bp_get_messages_slug() . ">messages</a>";
+}
+add_shortcode( 'bp_messages', 'get_bp_messages' );
+
+function get_bp_compose() {
+    return "<a href=\"" . bp_loggedin_user_domain() . bp_get_messages_slug() . "/compose\">compose</a>";
+}
+add_shortcode( 'bp_compose', 'get_bp_compose' );
+
 
 /* Buddypress stuff below */
-
 function page_in_array($page_array){
     //$path = parse_url(wp_get_referer(), PHP_URL_PATH);
     $path = $_SERVER['REQUEST_URI'];
