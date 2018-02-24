@@ -67,6 +67,11 @@ function my_login_logo_url_title() {
 add_filter( 'login_headertitle', 'my_login_logo_url_title' );
 
 /* shortcodes for adding dynamically generated urls */
+function get_bp_profile() {
+    return "<a href=\"" . bp_loggedin_user_domain() . "profile\">profile</a>";
+}
+add_shortcode( 'bp_profile', 'get_bp_profile' );
+
 function get_bp_messages() {
     return "<a href=" . bp_loggedin_user_domain() . bp_get_messages_slug() . ">messages</a>";
 }
