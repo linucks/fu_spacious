@@ -95,7 +95,7 @@ add_shortcode( 'bp_compose', 'get_bp_compose' );
 /* Buddypress stuff below */
 function page_in_array($page_array){
     //$path = parse_url(wp_get_referer(), PHP_URL_PATH);
-    $path = $_SERVER['REQUEST_URI'];
+    $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     return in_array( $path, $page_array );
 }
 
