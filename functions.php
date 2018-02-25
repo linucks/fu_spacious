@@ -66,6 +66,15 @@ function my_login_logo_url_title() {
 }
 add_filter( 'login_headertitle', 'my_login_logo_url_title' );
 
+function fu_login_message( $message ) {
+    if ( empty($message) ){
+        return "<p>The Future Food Challenge is our exciting schools programme, putting young people's science and business skills to the test!</p><br/><p>To find out more <a href=\"mailto:info@farmurban.co.uk\">contact</a> the Farm Urban team.</p>";
+    } else {
+        return $message;
+    }
+}
+add_filter( 'login_message', 'fu_login_message' );
+
 /* shortcodes for adding dynamically generated urls */
 function get_bp_profile() {
     return "<a href=\"" . bp_loggedin_user_domain() . "profile\">profile</a>";
