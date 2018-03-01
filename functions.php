@@ -22,6 +22,22 @@ function my_theme_enqueue_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'my_theme_enqueue_styles' );
 
+/* Google Analytics */
+function wpb_add_googleanalytics() { 
+?>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-114920515-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-114920515-1');
+</script>
+<?php
+}
+add_action('wp_head', 'wpb_add_googleanalytics');
+
 /* Style the Login Page */
 function fu_login_redirect($redirect_to_calculated, $redirect_url_specified, $user) {
     $redirect_to = $redirect_to_calculated;
