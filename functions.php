@@ -10,6 +10,17 @@ $FF_STAFF_MENUS = array( 'The Staff Room', 'Teacher\'s Forum' );
 $FF_STUDENT_MENUS = array( 'Forum', 'Future Food Challenge 2018' );
 $FF_MENUS = array_merge($FF_STAFF_MENUS, $FF_STUDENT_MENUS);
 
+/* For error logging */
+if ( ! function_exists('write_log')) {
+   function write_log ( $log )  {
+      if ( is_array( $log ) || is_object( $log ) ) {
+         error_log( print_r( $log, true ) );
+      } else {
+         error_log( $log );
+      }
+   }
+}
+
 function my_theme_enqueue_styles() {
     $parent_style = 'spacious_style';
     wp_enqueue_style( $parent_style, get_template_directory_uri() . '/style.css' );
@@ -18,12 +29,12 @@ function my_theme_enqueue_styles() {
         array( $parent_style ),
         wp_get_theme()->get('Version')
     );
-    wp_enqueue_style( 'google-fonts-dosis', 'https://fonts.googleapis.com/css?family=Dosis' ); 
+    wp_enqueue_style( 'google-fonts-dosis', 'https://fonts.googleapis.com/css?family=Dosis' );
 }
 add_action( 'wp_enqueue_scripts', 'my_theme_enqueue_styles' );
 
 /* Google Analytics */
-function wpb_add_googleanalytics() { 
+function wpb_add_googleanalytics() {
 ?>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114920515-1"></script>
@@ -38,22 +49,33 @@ function wpb_add_googleanalytics() {
 }
 add_action('wp_head', 'wpb_add_googleanalytics');
 
-/* Style the Login Page */
-function fu_login_redirect($redirect_to_calculated, $redirect_url_specified, $user) {
-    $redirect_to = $redirect_to_calculated;
+function fu_login_redirect($redirect_to, $redirect_url_specified, $user) {
     if ( ! is_wp_error( $user ) ) {
-        if ( in_array('administrator',  $user->roles) ) {
-            $redirect_to = $redirect_to_calculated;
-        } elseif ( user_is_teacher($user->ID) ) {
-            $redirect_to = home_url( '/the-staff-room/' );
-        } else {
-            $redirect_to = home_url( '/future-food-challenge-2018/' );
-        }
+      $redirect_to = calculate_user_redirect($redirect_to, $user);
     }
     return $redirect_to;
 }
 add_filter('login_redirect','fu_login_redirect', 10, 3);
 
+function calculate_user_redirect($redirect_to, $user) {
+   /* Calculcate the redirect based on the user and requested page */
+    global $FF_PAGES;
+    global $FF_STUDENT_PAGES;
+    if ( ! in_array('administrator',  $user->roles) ) {
+        if ( user_is_teacher($user->ID) ) {
+            if ( ! in_array( $redirect_to, $FF_PAGES ) ) {
+              $redirect_to = home_url( '/the-staff-room/' );
+            }
+        } else {
+          if ( ! in_array( $redirect_to, $FF_STUDENT_PAGES ) ) {
+            $redirect_to = home_url( '/future-food-challenge-2018/' );
+          }
+        }
+    }
+    return $redirect_to;
+}
+
+/* Style the Login Page */
 function my_login_logo() { ?>
     <style type="text/css">
         #login h1 a, .login h1 a {
@@ -107,7 +129,6 @@ function get_bp_compose() {
 }
 add_shortcode( 'bp_compose', 'get_bp_compose' );
 
-
 /* Buddypress stuff below */
 function page_in_array($page_array){
     //$path = parse_url(wp_get_referer(), PHP_URL_PATH);
@@ -141,7 +162,7 @@ function my_page_template_redirect()
 {
     if ( page_only_for_teachers() || is_protected_page() )
     {
-        wp_redirect( home_url( '/wp-login.php' ) );
+        wp_redirect( home_url( '/wp-login.php?redirect_to=' . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ) );
         exit();
     }
 }
@@ -160,4 +181,3 @@ function filter_nav_menu_items($menu){
     return $menu; //return the filtered object
 }
 add_filter( 'wp_setup_nav_menu_item', 'filter_nav_menu_items', 1 );
-
