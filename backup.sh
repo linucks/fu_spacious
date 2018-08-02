@@ -3,6 +3,10 @@
 # Inspired by: http://www.mikerubel.org/computers/rsync_snapshots/
 # Also: https://uk.godaddy.com/help/backup-mysql-databases-on-your-server-linux-17547
 
+# To generate backup on server need script to run:
+# mysqldump -ufarmurbanwp13 -pXXXXXX farmurbanwp13 > farmurbanwp13_dump.sql
+# This is run by a cronjob weekly
+
 function rsync_bkup {
     root=alexprob@farmurban.co.uk:/home/alexprob/public_html/farmurban/
     fname=$1
