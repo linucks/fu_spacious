@@ -50,3 +50,5 @@ function get_fu_view_cart() {
 }
 add_shortcode( 'fu_view_cart', 'get_fu_view_cart' );
 
+/* Remove sidebar from woocommerce pages */
+remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10 );
